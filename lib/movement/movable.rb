@@ -18,12 +18,10 @@ module Movable
 
   def backwards_horizontal(board, rank, file)
     moves = []
-    new_rank = rank
-    new_file = file
 
     loop do
-      new_rank -= 1
-      new_file -= 1
+      rank -= 1
+      file -= 1
       break unless valid_move?(board, new_rank, new_file)
 
       moves << [new_rank, new_file]
@@ -35,12 +33,10 @@ module Movable
 
   def forwards_horizontal(board, rank, file)
     moves = []
-    new_rank = rank
-    new_file = file
 
     loop do
-      new_rank += 1
-      new_file += 1
+      rank += 1
+      file += 1
       break unless valid_move?(board, new_rank, new_file)
 
       moves << [new_rank, new_file]
@@ -52,12 +48,10 @@ module Movable
 
   def downwards_vertical(board, rank, file)
     moves = []
-    new_rank = rank
-    new_file = file
 
     loop do
-      new_rank += 1
-      new_file += 1
+      rank += 1
+      file += 1
       break unless valid_move?(board, new_rank, new_file)
 
       moves << [new_rank, new_file]
@@ -69,12 +63,10 @@ module Movable
 
   def upwards_vertical(board, rank, file)
     moves = []
-    new_rank = rank
-    new_file = file
 
     loop do
-      new_rank -= 1
-      new_file -= 1
+      rank -= 1
+      file -= 1
       break unless valid_move?(board, new_rank, new_file)
 
       moves << [new_rank, new_file]
