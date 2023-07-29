@@ -31,7 +31,7 @@ module Movable
       moves << [rank, file]
 
       break if board.data[rank][file]&.color != color
-      # when path is blocked off by an enemy piece
+      # when path is blocked off by an enemy piece, add enemy piece to the move list, then break the loop
     end
 
     moves
