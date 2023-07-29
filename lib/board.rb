@@ -48,13 +48,13 @@ class Board
   private
 
   def initial_white_placement
-    data[-1].each_index do |index|
+    data[7].each_index do |index|
       piece_type = Object.const_get(INITIAL_POSITIONS[index][:piece])
-      place_piece(piece_type, -1, index, :white)
+      place_piece(piece_type, 7, index, :white)
     end
 
-    data[-2].each_index do |index|
-      data[-2][index] = Pawn.new(self, [6, index], :white)
+    data[6].each_index do |index|
+      data[6][index] = Pawn.new(self, [6, index], :white)
     end
   end
 
@@ -65,7 +65,7 @@ class Board
     end
 
     data[1].each_index do |index|
-      data[1][index] = Pawn.new(self, [6, index], :black)
+      data[1][index] = Pawn.new(self, [1, index], :black)
     end
   end
 
