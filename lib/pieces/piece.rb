@@ -21,4 +21,20 @@ class Piece
   def legal_moves(board)
     generate_moves(board)
   end
+
+  private
+
+  def valid_move?(board, rank, file)
+    on_board?(board, rank, file) && not_ally_piece?(board, rank, file)
+    # this method checks whether a given move is within the bounds of the board, and that there isn't an ally piece
+    # present on the board.
+  end
+
+  def on_board?(board, rank, file)
+    [rank, file].all? { |pos| pos.between?(0, board.data.size - 1) }
+  end
+
+  def not_ally_piece?(board, rank, file)
+    board.data[rank][file]&.color != color
+  end
 end
