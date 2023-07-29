@@ -28,21 +28,21 @@ class Board
     @halfmove_clock = params[:halfmove_clock]
   end
 
-  # we'll handle movement using a separate class, by removing the active piece
-  # from it's original location and placing it at the new location, and then notifying
-  # all pieces of the changes so that all pieces update their @valid_moves and @valid_captures values.
-  # psuedo code:
-  # def move_piece(piece, origin, destination)
-  #   data[origin[0]][origin[1]] = nil
-  #   data[destination[0]][destination[1]] = piece
-  #   changed & notify(self)
-
   def piece_setup
     initial_white_placement
     initial_black_placement
 
-    changed
-    notify_observers(self)
+    notify # notifies pieces to update valid_moves and valid_captures
+  end
+
+  def move_piece(piece, new_location)
+    current_rank = piece.location[0]
+    current_file = piece.location[1]
+
+    data[new_location[0]][new_location[1]] = data[current_rank][current_file]
+    data[current_rank][current_file] = nil
+
+    notify # notifies pieces to update valid_moves and valid_captures
   end
 
   private
@@ -71,5 +71,12 @@ class Board
 
   def place_piece(type, rank, file, color)
     data[rank][file] = type.new(self, [rank, file], color)
+  end
+
+  # just to combine the changed and notify_observers into one method, this slims down code
+  # and makes it more readable
+  def notify
+    changed
+    notify_observers(self)
   end
 end
