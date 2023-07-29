@@ -14,5 +14,11 @@ class Piece
     @valid_captures = []
   end
 
-  def update; end
+  def update(board)
+    legal_moves(board)
+  end
+
+  def legal_moves(board)
+    generate_moves(board)
+  end
 end
