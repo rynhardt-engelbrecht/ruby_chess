@@ -3,76 +3,37 @@
 # handles sliding pieces' movement
 module Movable
   def horizontal_movement(board, rank, file)
-    backwards_horizontal.concat(forwards_horizontal)
+    moves_in_direction(board, rank, file, 0, -1).concat(moves_in_direction(board, rank, file, 0, 1))
   end
 
   def vertical_movement(board, rank, file)
-    downwards_vertical.concat(upwards_vertical)
+    moves_in_direction(board, rank, file, -1, 0).concat(moves_in_direction(board, rank, file, 1, 0))
   end
 
   def diagonal_movement(board, rank, file)
-    downwards_diagonal.concat(upwards_diagonal)
+    moves_in_direction(board, rank, file, -1, -1).concat(
+      moves_in_direction(board, rank, file, -1, 1),
+      moves_in_direction(board, rank, file, 1, -1),
+      moves_in_direction(board, rank, file, 1, 1)
+      )
   end
 
   private
 
-  def backwards_horizontal(board, rank, file)
+  def moves_in_direction(board, rank, file, rank_direction, file_direction)
     moves = []
 
     loop do
-      rank -= 1
-      file -= 1
-      break unless valid_move?(board, new_rank, new_file)
+      rank += rank_direction
+      file += file_direction
+      break unless valid_move?(board, rank, file)
 
-      moves << [new_rank, new_file]
+      moves << [rank, file]
 
-      break if board.data[new_rank][new_file]&.color != color
+      break if board.data[rank][file]&.color != color
       # when path is blocked off by an enemy piece
     end
-  end
 
-  def forwards_horizontal(board, rank, file)
-    moves = []
-
-    loop do
-      rank += 1
-      file += 1
-      break unless valid_move?(board, new_rank, new_file)
-
-      moves << [new_rank, new_file]
-
-      break if board.data[new_rank][new_file]&.color != color
-      # when path is blocked off by an enemy piece
-    end
-  end
-
-  def downwards_vertical(board, rank, file)
-    moves = []
-
-    loop do
-      rank += 1
-      file += 1
-      break unless valid_move?(board, new_rank, new_file)
-
-      moves << [new_rank, new_file]
-
-      break if board.data[new_rank][new_file]&.color != color
-      # when path is blocked off by an enemy piece
-    end
-  end
-
-  def upwards_vertical(board, rank, file)
-    moves = []
-
-    loop do
-      rank -= 1
-      file -= 1
-      break unless valid_move?(board, new_rank, new_file)
-
-      moves << [new_rank, new_file]
-
-      break if board.data[new_rank][new_file]&.color != color
-      # when path is blocked off by an enemy piece
-    end
+    moves
   end
 end
