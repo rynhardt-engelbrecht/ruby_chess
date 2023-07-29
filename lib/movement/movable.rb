@@ -10,6 +10,10 @@ module Movable
     downwards_vertical.concat(upwards_vertical)
   end
 
+  def diagonal_movement(board, rank, file)
+    downwards_diagonal.concat(upwards_diagonal)
+  end
+
   private
 
   def backwards_horizontal(board, rank, file)
@@ -61,22 +65,22 @@ module Movable
       break if board.data[new_rank][new_file]&.color != color
       # when path is blocked off by an enemy piece
     end
+  end
 
-    def upwards_vertical(board, rank, file)
-      moves = []
-      new_rank = rank
-      new_file = file
+  def upwards_vertical(board, rank, file)
+    moves = []
+    new_rank = rank
+    new_file = file
 
-      loop do
-        new_rank -= 1
-        new_file -= 1
-        break unless valid_move?(board, new_rank, new_file)
+    loop do
+      new_rank -= 1
+      new_file -= 1
+      break unless valid_move?(board, new_rank, new_file)
 
-        moves << [new_rank, new_file]
+      moves << [new_rank, new_file]
 
-        break if board.data[new_rank][new_file]&.color != color
-        # when path is blocked off by an enemy piece
-      end
+      break if board.data[new_rank][new_file]&.color != color
+      # when path is blocked off by an enemy piece
     end
   end
 end
