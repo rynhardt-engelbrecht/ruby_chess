@@ -8,11 +8,6 @@ class Bishop < Piece
   include Movable
 
   def generate_moves(board, rank, file)
-    diagonal_movement(board, rank, file).each do |move|
-      new_rank = move[0]
-      new_file = move[1]
-
-      add_move(board, [new_rank, new_file]) if valid_move?(board, new_rank, new_file)
-    end
+    traverse_move_array(board, 0, 0, diagonal_movement(board, rank, file))
   end
 end

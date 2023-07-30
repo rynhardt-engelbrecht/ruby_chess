@@ -31,6 +31,15 @@ class Piece
 
   private
 
+  def traverse_move_array(board, rank_increment, file_increment, array)
+    array.each do |move|
+      new_rank = move[0] + rank_increment
+      new_file = move[1] + file_increment
+
+      add_move(board, [new_rank, new_file]) if valid_move?(board, new_rank, new_file)
+    end
+  end
+
   def add_move(board, move)
     rank = move[0]
     file = move[1]
