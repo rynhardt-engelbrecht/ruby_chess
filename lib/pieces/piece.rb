@@ -4,6 +4,9 @@ require_relative '../board'
 
 # abstract class containing shared logic between chess pieces
 class Piece
+  attr_accessor :location
+  attr_reader :color
+
   def initialize(board, location, color)
     board.add_observer(self)
 
@@ -24,8 +27,8 @@ class Piece
 
   private
 
-  def generate_moves
-    raise 'Abstract method called'
+  def generate_moves(_board, _rank, _file)
+    puts 'Abstract method called'
   end
 
   def valid_move?(board, rank, file)

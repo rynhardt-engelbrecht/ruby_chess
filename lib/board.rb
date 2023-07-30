@@ -36,11 +36,10 @@ class Board
   end
 
   def move_piece(piece, new_location)
-    current_rank = piece.location[0]
-    current_file = piece.location[1]
-
-    data[new_location[0]][new_location[1]] = data[current_rank][current_file]
-    data[current_rank][current_file] = nil
+    temp_piece = piece
+    remove_old_piece(piece)
+    data[new_location[0]][new_location[1]] = temp_piece
+    update_location(temp_piece, new_location)
 
     notify # notifies pieces to update valid_moves and valid_captures
   end
@@ -78,5 +77,16 @@ class Board
   def notify
     changed
     notify_observers(self)
+  end
+
+  def update_location(piece, new_location)
+    piece.location = [new_location[0], new_location[1]]
+  end
+
+  def remove_old_piece(piece)
+    rank = piece.location[0]
+    file = piece.location[1]
+
+    data[rank][file] = nil
   end
 end
