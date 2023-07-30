@@ -18,6 +18,8 @@ class Piece
   end
 
   def update(board)
+    @valid_moves = []
+    @valid_captures = []
     legal_moves(board.data, @location[0], @location[1])
   end
 
