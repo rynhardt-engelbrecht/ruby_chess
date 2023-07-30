@@ -15,26 +15,34 @@ class Piece
   end
 
   def update(board)
-    legal_moves(board)
+    legal_moves(board.data, @location[0], @location[1])
   end
 
-  def legal_moves(board)
-    generate_moves(board)
+  def legal_moves(board, rank, file)
+    generate_moves(board, rank, file)
   end
 
   private
 
+  def generate_moves
+    raise 'Abstract method called'
+  end
+
   def valid_move?(board, rank, file)
-    on_board?(board, rank, file) && not_ally_piece?(board, rank, file)
+    on_board?(board, rank, file) && !ally_piece?(board, rank, file)
     # this method checks whether a given move is within the bounds of the board, and that there isn't an ally piece
-    # present on the board.
+    # present on that square on the board.
   end
 
   def on_board?(board, rank, file)
-    [rank, file].all? { |pos| pos.between?(0, board.data.size - 1) }
+    [rank, file].all? { |pos| pos.between?(0, board.size - 1) }
   end
 
-  def not_ally_piece?(board, rank, file)
-    board.data[rank][file]&.color != color
+  def ally_piece?(board, rank, file)
+    board[rank][file]&.color == color
+  end
+
+  def opponent_piece?(board, rank, file)
+    board[rank][file]&.color != color
   end
 end
