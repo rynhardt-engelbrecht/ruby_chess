@@ -11,7 +11,7 @@ class Knight < Piece
       new_rank = rank + move[0]
       new_file = file + move[1]
 
-      moves << [new_rank, new_file] if valid_move?(board, rank, file)
+      moves << [new_rank, new_file] if valid_move?(board, new_rank, new_file)
     end
 
     moves
