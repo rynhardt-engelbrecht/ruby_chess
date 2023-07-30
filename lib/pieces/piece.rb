@@ -23,12 +23,14 @@ class Piece
 
   def legal_moves(board, rank, file)
     generate_moves(board, rank, file)
+  rescue RuntimeError => e
+    puts "Error occured: #{e.message}"
   end
 
   private
 
   def generate_moves(_board, _rank, _file)
-    puts 'Abstract method called'
+    raise RuntimeError.new, 'Abstract method called'
   end
 
   def valid_move?(board, rank, file)
