@@ -29,6 +29,17 @@ class Piece
 
   private
 
+  def add_move(board, move)
+    rank = move[0]
+    file = move[1]
+
+    if opponent_piece?(board, rank, file)
+      @valid_captures << move
+    else
+      @valid_moves << move
+    end
+  end
+
   def generate_moves(_board, _rank, _file)
     raise RuntimeError.new, 'Abstract method called'
   end
@@ -44,10 +55,10 @@ class Piece
   end
 
   def ally_piece?(board, rank, file)
-    board[rank][file]&.color == color
+    !board[rank][file].nil? && board[rank][file].color == color
   end
 
   def opponent_piece?(board, rank, file)
-    board[rank][file]&.color != color
+    !board[rank][file].nil? && board[rank][file].color != color
   end
 end
