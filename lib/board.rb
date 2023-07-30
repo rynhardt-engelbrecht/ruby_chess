@@ -32,16 +32,16 @@ class Board
     initial_white_placement
     initial_black_placement
 
-    notify # notifies pieces to update valid_moves and valid_captures
+    changed_and_notify # notifies pieces to update valid_moves and valid_captures
   end
 
   def move_piece(piece, new_location)
-    temp_piece = piece
+    temp_piece = piece # create a copy of the piece so we can remove the original piece from it's original location
     remove_old_piece(piece)
-    data[new_location[0]][new_location[1]] = temp_piece
+    data[new_location[0]][new_location[1]] = temp_piece # insert the copied piece at the specified location
     update_location(temp_piece, new_location)
 
-    notify # notifies pieces to update valid_moves and valid_captures
+    changed_and_notify # notifies pieces to update valid_moves and valid_captures
   end
 
   private
@@ -72,9 +72,9 @@ class Board
     data[rank][file] = type.new(self, [rank, file], color)
   end
 
-  # just to combine the changed and notify_observers into one method, this slims down code
+  # just to combine the changed and notify_observers methods into one method, this slims down code
   # and makes it more readable
-  def notify
+  def changed_and_notify
     changed
     notify_observers(self)
   end
