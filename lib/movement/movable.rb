@@ -15,7 +15,7 @@ module Movable
       moves_in_direction(board, rank, file, -1, 1),
       moves_in_direction(board, rank, file, 1, -1),
       moves_in_direction(board, rank, file, 1, 1)
-      )
+    )
   end
 
   private
