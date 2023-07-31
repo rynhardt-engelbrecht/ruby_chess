@@ -17,6 +17,7 @@ class Player
     # verify that the given input is a valid move
     # by checking @valid_moves and @valid_captures of the piece
     # finally call the Board#move_piece method
+    make_move(choose_move)
   end
 
   private
@@ -46,9 +47,22 @@ class Player
     # can actually move from it's current position.
   end
 
-  def choose_move; end
+  def choose_move(piece)
+    move = coordinates_input
 
-  def verify_valid_move; end
+    choose_move unless valid_move?(piece, move)
 
-  def make_move; end
+    move
+  end
+
+  def valid_move?(piece, move)
+    piece.valid_moves.include?(move) || piece.valid_captures.include?(move)
+    # checks that the given move exists within the piece's valid_moves and valid_captures instance variables.
+    # Which are used to store what moves the specified piece can make. So if the given move does not exist in either
+    # array, the user has entered an invalid move. And they are an idiot (I am only half-joking).
+  end
+
+  def make_move(piece, move)
+    @board.move_piece(piece, move)
+  end
 end
