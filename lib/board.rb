@@ -39,6 +39,7 @@ class Board
     temp_piece = piece # create a copy of the piece so we can remove the original piece from it's original location
     remove_old_piece(piece)
     data[new_location[0]][new_location[1]] = temp_piece # insert the copied piece at the specified location
+    temp_piece.moved = true
     update_location(temp_piece, new_location)
 
     changed_and_notify # notifies pieces to update valid_moves and valid_captures

@@ -25,6 +25,7 @@ class Pawn < Piece
   private
 
   def check_captures(board, rank, file)
+    # checking if there is an opponent piece diagonally across from the pawn
     capture_moves.each do |move|
       capture_rank = rank + move[0]
       capture_file = file + move[1]

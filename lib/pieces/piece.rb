@@ -4,7 +4,7 @@ require_relative '../board'
 
 # abstract class containing shared logic between chess pieces
 class Piece
-  attr_accessor :location
+  attr_accessor :location, :moved
   attr_reader :color
 
   def initialize(board, location, color)
