@@ -2,16 +2,18 @@
 
 # contains the logic to handle player input
 class Player
-  def initialize(color)
+  attr_reader :color
+
+  def initialize(board, color)
+    @board = board
     @color = color
   end
 
   def turn
     # should input the piece to move
-    coordinates_input
+    choose_piece
     # verify that there's actually an ally piece there
     # then input the square to move the chosen piece to
-    coordinates_input
     # verify that the given input is a valid move
     # by checking @valid_moves and @valid_captures of the piece
     # finally call the Board#move_piece method
@@ -28,4 +30,25 @@ class Player
 
     [rank_integer_index, file_index]
   end
+
+  def choose_piece
+    piece_location = coordinates_input
+    piece = @board.data[piece_location[0]][piece_location[1]]
+
+    choose_piece unless own_movable_piece?(piece)
+
+    piece
+  end
+
+  def own_movable_piece?(piece)
+    piece.color == color && !piece.valid_moves.concat(piece.valid_captures).empty?
+    # we check that the piece the user is trying to move, is their own piece, but also that the piece
+    # can actually move from it's current position.
+  end
+
+  def choose_move; end
+
+  def verify_valid_move; end
+
+  def make_move; end
 end
