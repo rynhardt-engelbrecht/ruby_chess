@@ -2,11 +2,14 @@
 
 # contains the logic to handle player input
 class Player
-  attr_reader :color
+  attr_reader :color, :pieces
 
   def initialize(board, color)
+    board.add_observer(self)
+
     @board = board
     @color = color
+    @pieces = []
   end
 
   def turn
@@ -18,6 +21,10 @@ class Player
     # by checking @valid_moves and @valid_captures of the piece
     # finally call the Board#move_piece method
     make_move(choose_move)
+  end
+
+  def update(board)
+    @pieces = find_pieces(board.data)
   end
 
   private
@@ -64,5 +71,18 @@ class Player
 
   def make_move(piece, move)
     @board.move_piece(piece, move)
+  end
+
+  def find_pieces(board)
+    pieces = []
+
+    board.each_with_index do |rank, rank_index|
+      rank.each_index do |file_index|
+        square = board[rank_index][file_index]
+        pieces << board[rank_index][file_index] if square&.color == color
+      end
+    end
+
+    pieces
   end
 end
