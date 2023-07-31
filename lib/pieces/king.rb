@@ -3,4 +3,23 @@
 require_relative 'piece'
 
 # contains logic for the King chess piece
-class King < Piece; end
+class King < Piece
+  def generate_moves(board, rank, file)
+    traverse_move_array(board, rank, file, moveset)
+  end
+
+  private
+
+  def moveset
+    [
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+      [0, -1],
+      [0, 1],
+      [1, -1],
+      [1, 0],
+      [1, 1]
+    ]
+  end
+end
