@@ -5,6 +5,11 @@ require_relative '../movement/movable'
 
 # contains logic for the Queen < Piece chess piece
 class Queen < Piece
+  def initialize(board, location, color)
+    super
+    @symbol = "\u265B"
+  end
+
   include Movable
 
   def generate_moves(board, rank, file)

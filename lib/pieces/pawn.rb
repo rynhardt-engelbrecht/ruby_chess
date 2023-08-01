@@ -7,6 +7,7 @@ class Pawn < Piece
   def initialize(board, location, color)
     super
     @direction = @color == :white ? -1 : 1
+    @symbol = "\u265F"
   end
 
   def generate_moves(board, rank, file)

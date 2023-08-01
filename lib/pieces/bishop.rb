@@ -5,6 +5,11 @@ require_relative '../movement/movable'
 
 # contains logic for the Bishop chess piece
 class Bishop < Piece
+  def initialize(board, location, color)
+    super
+    @symbol = "\u265D"
+  end
+
   include Movable
 
   def generate_moves(board, rank, file)

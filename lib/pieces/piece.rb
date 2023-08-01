@@ -15,6 +15,7 @@ class Piece
     @moved = false
     @valid_moves = []
     @valid_captures = []
+    @symbol = nil
   end
 
   def update(board)
