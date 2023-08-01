@@ -17,10 +17,13 @@ class Board
     { piece: :Rook, file: 7 }
   ].freeze
 
-  attr_accessor :data, :active_color
-  attr_reader :en_passant_target, :castling_avail, :halfmove_clock
+  attr_accessor :data, :active_color, :halfmove_clock
+  attr_reader :en_passant_target, :castling_avail
 
-  def initialize(data = Array.new(8) { Array.new(8) }, params = {})
+  def initialize(
+    data = Array.new(8) { Array.new(8) },
+    params = { active_color: :white, en_passant_target: nil, halfmove_clock: 0 }
+  )
     @data = data # board represented using a 2-Dimensional array.
     @active_color = params[:active_color]
     @en_passant_target = params[:en_passant_target]
