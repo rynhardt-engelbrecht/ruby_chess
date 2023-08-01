@@ -7,7 +7,7 @@ require_relative '../movement/movable'
 class Rook < Piece
   def initialize(board, location, color)
     super
-    @symbol = " \u265C "
+    @symbol = "\u265C "
   end
 
   include Movable
