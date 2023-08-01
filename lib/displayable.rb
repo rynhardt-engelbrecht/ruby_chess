@@ -11,6 +11,8 @@ module Displayable
     puts
   end
 
+  private
+
   def print_squares
     @data.each_with_index do |rank, index|
       print "\e[38;2;181;101;29m #{8 - index} \e[0m"
@@ -20,8 +22,8 @@ module Displayable
     end
   end
 
-  def print_row(row, rank_index)
-    row.each_with_index do |square, file_index|
+  def print_row(rank, rank_index)
+    rank.each_with_index do |square, file_index|
       background_color = (rank_index + file_index).even? ? '48;2;181;101;29' : '48;2;187;149;100'
       print_square(square, background_color)
     end
