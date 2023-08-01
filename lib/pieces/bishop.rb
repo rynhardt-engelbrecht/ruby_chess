@@ -7,7 +7,7 @@ require_relative '../movement/movable'
 class Bishop < Piece
   def initialize(board, location, color)
     super
-    @symbol = "\u265D"
+    @symbol = " \u265E "
   end
 
   include Movable

@@ -6,7 +6,7 @@ require_relative 'piece'
 class Knight < Piece
   def initialize(board, location, color)
     super
-    @symbol = "\u265E"
+    @symbol = " \u265E "
   end
 
   def generate_moves(board, rank, file)

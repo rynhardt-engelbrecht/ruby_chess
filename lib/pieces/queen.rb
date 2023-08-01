@@ -7,7 +7,7 @@ require_relative '../movement/movable'
 class Queen < Piece
   def initialize(board, location, color)
     super
-    @symbol = "\u265B"
+    @symbol = " \u265B "
   end
 
   include Movable

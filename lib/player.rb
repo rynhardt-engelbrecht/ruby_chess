@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../text/text_output'
+require_relative 'text/text_output'
 
 # contains the logic to handle player input
 class Player
@@ -37,9 +37,9 @@ class Player
   def coordinates_input(input = gets.chomp.downcase)
     coordinates_input unless input.match?(/^[a-h][1-8]$/) # check for correct format and correct range
 
-    rank_letter_index = input[0]
+    rank_letter_index = input[1]
     rank_integer_index = rank_letter_index.ord - 97
-    file_index = input[1].to_i - 1
+    file_index = input[0].to_i - 1
 
     [rank_integer_index, file_index]
   end
