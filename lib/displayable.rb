@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
+require_relative 'text/text_output'
+
 # contains logic handle any visual output
 module Displayable
-  def print_board
+  include TextOutput
+
+  def print_board(color)
     system 'clear'
     puts
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
     print_squares
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
+    puts
+    puts turn_message('which color', color)
     puts
   end
 

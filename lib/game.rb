@@ -7,6 +7,7 @@ class Game
   def initialize(mode)
     @mode = mode
     @active = true
+    @last_move = nil
   end
 
   def play
@@ -26,11 +27,11 @@ class Game
   end
 
   def halfmove
-    @board.print_board
-
     active_player = players.find { |player| player.color == @board.active_color }
+    @board.print_board(active_player.color)
+
     active_player.turn
-    @board.print_board
+    @board.print_board(active_player.color)
 
     @board.active_color = @board.active_color == :white ? :black : :white
   end
