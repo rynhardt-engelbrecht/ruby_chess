@@ -2,5 +2,4 @@
 
 # contains logic handle any visual output
 module Displayable
-
 end
