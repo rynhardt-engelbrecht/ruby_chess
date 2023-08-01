@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require 'observer'
+require_relative 'displayable'
 
 # contains logic for a chess board, mainly to keep track of the state of the game and all pieces present in the game.
 class Board
   include Observable
+  include Displayable
 
   INITIAL_POSITIONS = [
     { piece: :Rook, file: 0 },
