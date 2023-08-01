@@ -37,15 +37,16 @@ class Player
   def coordinates_input(input = gets.chomp.downcase)
     coordinates_input unless input.match?(/^[a-h][1-8]$/) # check for correct format and correct range
 
-    rank_letter_index = input[1]
-    rank_integer_index = rank_letter_index.ord - 97
-    file_index = input[0].to_i - 1
+    rank_index = 8 - input[1].to_i
 
-    [rank_integer_index, file_index]
+    file_index = input[0]
+    file_integer_index = file_index.ord - 97
+
+    [rank_index, file_integer_index]
   end
 
   def choose_piece
-    print turn_message('square') + ' '
+    print "#{turn_message('square')} "
     piece_location = coordinates_input
     piece = @board.data[piece_location[0]][piece_location[1]]
 
@@ -61,7 +62,7 @@ class Player
   end
 
   def choose_move(piece)
-    print turn_message('move') + ' '
+    print "#{turn_message('move')} "
     move = coordinates_input
 
     choose_move(piece) unless valid_move?(piece, move)
