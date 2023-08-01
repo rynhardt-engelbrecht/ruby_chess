@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../display/text_output'
+require_relative '../text/text_output'
 
 # contains the logic to handle player input
 class Player
