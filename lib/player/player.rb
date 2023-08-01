@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../display/text_output'
+
 # contains the logic to handle player input
 class Player
   attr_reader :color, :pieces
+
+  include TextOutput
 
   def initialize(board, color)
     board.add_observer(self)
@@ -13,14 +17,15 @@ class Player
   end
 
   def turn
+    puts turn_message('which color', color)
     # should input the piece to move
-    choose_piece
+    piece_to_move = choose_piece
     # verify that there's actually an ally piece there
     # then input the square to move the chosen piece to
     # verify that the given input is a valid move
     # by checking @valid_moves and @valid_captures of the piece
     # finally call the Board#move_piece method
-    make_move(choose_move)
+    make_move(piece_to_move, choose_move(piece_to_move))
   end
 
   def update(board)
@@ -40,6 +45,7 @@ class Player
   end
 
   def choose_piece
+    print turn_message('square') + ' '
     piece_location = coordinates_input
     piece = @board.data[piece_location[0]][piece_location[1]]
 
@@ -49,15 +55,16 @@ class Player
   end
 
   def own_movable_piece?(piece)
-    piece.color == color && !piece.valid_moves.concat(piece.valid_captures).empty?
+    piece&.color == color && !piece.valid_moves.concat(piece.valid_captures).empty?
     # we check that the piece the user is trying to move, is their own piece, but also that the piece
     # can actually move from it's current position.
   end
 
   def choose_move(piece)
+    print turn_message('move') + ' '
     move = coordinates_input
 
-    choose_move unless valid_move?(piece, move)
+    choose_move(piece) unless valid_move?(piece, move)
 
     move
   end
