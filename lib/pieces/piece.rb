@@ -21,7 +21,7 @@ class Piece
   def update(board)
     @valid_moves = []
     @valid_captures = []
-    legal_moves(board.data, @location[0], @location[1])
+    legal_moves(board, @location[0], @location[1])
   end
 
   def legal_moves(board, rank, file)
@@ -67,18 +67,18 @@ class Piece
   end
 
   def on_board?(board, rank, file)
-    [rank, file].all? { |pos| pos.between?(0, board.size - 1) }
+    [rank, file].all? { |pos| pos.between?(0, board.data.size - 1) }
   end
 
   def ally_piece?(board, rank, file)
-    !board[rank][file].nil? && board[rank][file].color == color
+    !board.data[rank][file].nil? && board.data[rank][file].color == color
   end
 
   def king_piece?(board, rank, file)
-    !board[rank][file].nil? && board[rank][file].instance_of?(King)
+    !board.data[rank][file].nil? && board.data[rank][file].instance_of?(King)
   end
 
   def opponent_piece?(board, rank, file)
-    !board[rank][file].nil? && board[rank][file].color != color
+    !board.data[rank][file].nil? && board.data[rank][file].color != color
   end
 end
