@@ -61,7 +61,7 @@ class Piece
   end
 
   def valid_move?(board, rank, file)
-    on_board?(board, rank, file) && !ally_piece?(board, rank, file)
+    on_board?(board, rank, file) && !ally_piece?(board, rank, file) && !king_piece?(board, rank, file)
     # this method checks whether a given move is within the bounds of the board, and that there isn't an ally piece
     # present on that square on the board.
   end
@@ -72,6 +72,10 @@ class Piece
 
   def ally_piece?(board, rank, file)
     !board[rank][file].nil? && board[rank][file].color == color
+  end
+
+  def king_piece?(board, rank, file)
+    !board[rank][file].nil? && board[rank][file].instance_of?(King)
   end
 
   def opponent_piece?(board, rank, file)
