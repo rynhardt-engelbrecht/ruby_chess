@@ -42,9 +42,7 @@ class Game
       rank.each do |piece|
         next unless piece.instance_of?(Pawn) && piece.pending_promotion?
 
-        promotion = prompt_promotion
-        promoted_piece = Object.const_get(promotion)
-        @board.data[piece.location[0]][piece.location[1]] = promoted_piece.new(@board, piece.location, piece.color)
+        promote_pawn(piece)
       end
     end
   end
@@ -60,6 +58,12 @@ class Game
     end
 
     input.to_sym
+  end
+
+  def promote_pawn(pawn)
+    promotion = prompt_promotion
+    piece_to_promote = Object.const_get(promotion)
+    @board.data[pawn.location[0]][pawn.location[1]] = piece_to_promote.new(@board, pawn.location, pawn.color)
   end
 
   def create_board(board_obj)
