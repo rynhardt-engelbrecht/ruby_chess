@@ -11,6 +11,8 @@ class Pawn < Piece
     @direction = @color == :white ? -1 : 1
     @symbol = "\u265F "
     @en_passant = false
+
+    @pending_promotion = false
   end
 
   def generate_moves(board, rank, file)
@@ -36,6 +38,20 @@ class Pawn < Piece
       board.last_move[0].instance_of?(self.class) &&
       (board.last_move[2][0] - board.last_move[1][0]).abs == 2 &&
       en_passant_rank?(board, rank)
+  end
+
+  def pending_promotion?
+    @pending_promotion
+  end
+
+  def update(board)
+    @valid_moves = []
+    @valid_captures = []
+    if eligible_promotion?
+      @pending_promotion = true
+    else
+      legal_moves(board, @location[0], @location[1])
+    end
   end
 
   private
@@ -76,5 +92,9 @@ class Pawn < Piece
 
   def update_en_passant(board, rank)
     @en_passant = en_passant?(board, rank)
+  end
+
+  def eligible_promotion?(rank = location[0])
+    (color == :white && rank.zero?) || (color == :black && rank == 7)
   end
 end
