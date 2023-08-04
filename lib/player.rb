@@ -19,6 +19,7 @@ class Player
   def turn(piece = nil, move = nil)
     # should input the piece to move
     piece = choose_piece until own_movable_piece?(piece)
+    @board.active_piece = piece
     # verify that there's actually an ally piece there
     # then input the square to move the chosen piece to
     # verify that the given input is a valid move
@@ -26,6 +27,7 @@ class Player
     # finally call the Board#move_piece method
     move = choose_move(piece) until valid_move?(piece, move)
     make_move(piece, move)
+    @board.active_piece = nil
   end
 
   def update(board)

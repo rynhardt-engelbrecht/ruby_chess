@@ -19,18 +19,18 @@ class Board
     { piece: :Rook, file: 7 }
   ].freeze
 
-  attr_accessor :data, :active_color, :halfmove_clock
-  attr_reader :en_passant_target, :castling_avail
+  attr_accessor :data, :active_color, :halfmove_clock, :active_piece, :previous_piece
+  attr_reader :last_move
 
   def initialize(
     data = Array.new(8) { Array.new(8) },
-    params = { active_color: :white, en_passant_target: nil, halfmove_clock: 0 }
+    params = { active_color: :white, en_passant_square: nil, halfmove_clock: 0 }
   )
     @data = data # board represented using a 2-Dimensional array.
     @active_color = params[:active_color]
-    @en_passant_target = params[:en_passant_target]
-    @castling_avail = params[:castling_avail]
+    @active_piece = params[:active_piece]
     @halfmove_clock = params[:halfmove_clock]
+    @last_move = nil
   end
 
   def piece_setup
@@ -41,6 +41,9 @@ class Board
   end
 
   def move_piece(piece, new_location)
+    piece.en_passant_capture(self) if piece.instance_of?(Pawn) &&
+                                      piece.en_passant?(self, new_location[0])
+    @last_move = [piece, piece.location, new_location]
     temp_piece = piece # create a copy of the piece so we can remove the original piece from it's original location
     remove_old_piece(piece)
     data[new_location[0]][new_location[1]] = temp_piece # insert the copied piece at the specified location
