@@ -8,3 +8,7 @@ require_relative 'pieces/queen'
 require_relative 'pieces/rook'
 require_relative 'player'
 require_relative 'game'
+
+# game = Game.new(0)
+# game.setup_game(Board, Player, Player)
+# game.play
