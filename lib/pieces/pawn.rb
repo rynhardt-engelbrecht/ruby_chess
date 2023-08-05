@@ -33,11 +33,12 @@ class Pawn < Piece
     board.data[capture_target.location[0]][capture_target.location[1]] = nil
   end
 
-  def en_passant?(board, rank)
+  def en_passant?(board, rank, file)
     board.last_move &&
-      board.last_move[0].instance_of?(self.class) &&
-      (board.last_move[2][0] - board.last_move[1][0]).abs == 2 &&
-      en_passant_rank?(board, rank)
+      pawn_move?(board) &&
+      moved_two_squares?(board) &&
+      en_passant_rank?(board, rank) &&
+      same_file?(board, file)
   end
 
   def pending_promotion?
@@ -67,9 +68,9 @@ class Pawn < Piece
   end
 
   def eligible_capture?(board, rank, file)
-    update_en_passant(board, rank)
+    update_en_passant(board, rank, file)
 
-    opponent_piece?(board, rank, file) || en_passant?(board, rank)
+    opponent_piece?(board, rank, file) || en_passant?(board, rank, file)
   end
 
   def moveset
@@ -90,11 +91,23 @@ class Pawn < Piece
     (rank == 2 && board.last_move[0].color == :black) || (rank == 5 && board.last_move[0].color == :white)
   end
 
-  def update_en_passant(board, rank)
-    @en_passant = en_passant?(board, rank)
+  def update_en_passant(board, rank, file)
+    @en_passant = en_passant?(board, rank, file)
   end
 
   def eligible_promotion?(rank = location[0])
     (color == :white && rank.zero?) || (color == :black && rank == 7)
+  end
+
+  def same_file?(board, file)
+    file == board.last_move[2][1]
+  end
+
+  def moved_two_squares?(board)
+    (board.last_move[2][0] - board.last_move[1][0]).abs == 2
+  end
+
+  def pawn_move?(board)
+    board.last_move[0].instance_of?(self.class)
   end
 end

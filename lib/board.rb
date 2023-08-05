@@ -20,7 +20,7 @@ class Board
   ].freeze
 
   attr_accessor :data, :active_color, :halfmove_clock, :active_piece, :previous_piece
-  attr_reader :last_move
+  attr_reader :last_move, :white_king, :black_king
 
   def initialize(
     data = Array.new(8) { Array.new(8) },
@@ -29,20 +29,23 @@ class Board
     @data = data # board represented using a 2-Dimensional array.
     @active_color = params[:active_color]
     @active_piece = params[:active_piece]
-    @halfmove_clock = params[:halfmove_clock]
+    @white_king = params[:white_king]
+    @black_king = params[:black_king]
     @last_move = nil
   end
 
   def piece_setup
     initial_white_placement
+    @white_king = data.flatten.compact.find { |piece| piece.instance_of?(King) && piece.color == :white }
     initial_black_placement
+    @black_king = data.flatten.compact.find { |piece| piece.instance_of?(King) && piece.color == :black }
 
     changed_and_notify # notifies pieces to update valid_moves and valid_captures
   end
 
   def move_piece(piece, new_location)
     piece.en_passant_capture(self) if piece.instance_of?(Pawn) &&
-                                      piece.en_passant?(self, new_location[0])
+                                      piece.en_passant?(self, new_location[0], new_location[1])
     @last_move = [piece, piece.location, new_location]
     temp_piece = piece # create a copy of the piece so we can remove the original piece from it's original location
     remove_old_piece(piece)
