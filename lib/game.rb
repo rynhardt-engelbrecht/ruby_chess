@@ -63,7 +63,7 @@ class Game
   def promote_pawn(pawn)
     promotion = prompt_promotion
     piece_to_promote = Object.const_get(promotion)
-    @board.data[pawn.location[0]][pawn.location[1]] = piece_to_promote.new(@board, pawn.location, pawn.color)
+    @board.data[pawn.location[0]][pawn.location[1]] = piece_to_promote.new(@board, pawn.location, pawn.color, true)
   end
 
   def create_board(board_obj)
