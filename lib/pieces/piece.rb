@@ -7,12 +7,12 @@ class Piece
   attr_accessor :location, :moved
   attr_reader :color, :valid_moves, :valid_captures, :symbol
 
-  def initialize(board, location, color)
+  def initialize(board, location, color, moved: false)
     board.add_observer(self)
 
     @location = location
     @color = color
-    @moved = false
+    @moved = moved
     @valid_moves = []
     @valid_captures = []
     @symbol = nil
