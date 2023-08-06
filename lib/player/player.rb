@@ -43,15 +43,13 @@ class Player
 
   def choose_piece
     puts game_message('check') if @board.in_check?(@board.active_color)
-    @board.print_board(@board.active_color)
+    # @board.print_board(@board.active_color)
     print "#{turn_message('square')} "
     piece = piece_from_input
     @board.print_board(@board.active_color)
     puts error_message('unmovable piece') unless own_movable_piece?(piece)
 
     piece
-  rescue InputSaveError
-    choose_piece
   end
 
   def piece_from_input
@@ -75,8 +73,6 @@ class Player
     puts error_message('invalid move') unless valid_move?(piece, move)
 
     move
-  rescue InputSaveError
-    choose_move(piece)
   end
 
   def valid_move?(piece, move)

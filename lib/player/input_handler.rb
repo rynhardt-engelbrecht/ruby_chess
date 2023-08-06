@@ -3,7 +3,7 @@ require_relative 'input_error'
 
 # contains logic to handle all input from the player
 module InputHandler
-  KEYWORDS = %w[q quit exit s save back].freeze
+  KEYWORDS = %w[q quit exit back].freeze
 
   def coordinates_input(input = gets.chomp.downcase)
     # check for correct format and correct range
@@ -33,18 +33,12 @@ module InputHandler
   end
 
   def save_game
-    @game.save_game
-    sleep(1)
+    raise SaveQuitError
   end
 
   def handle_control(input)
     quit_game if %w[q quit exit].include?(input)
-    if %w[s save].include?(input)
-      save_game
-      raise InputSaveError
-    elsif input == 'back'
-      raise InputBackError
-    end
+    raise InputBackError if input == 'back'
   end
 
   def valid_input?(input)

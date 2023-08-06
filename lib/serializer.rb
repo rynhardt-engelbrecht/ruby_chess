@@ -10,7 +10,7 @@ module Serializer
     file_name = formatted_file_name
 
     File.open("#{SAVE_FILE_DIRECTORY}/#{formatted_file_name}", 'w') { |file| Marshal.dump(self, file) }
-    puts game_message('saved', file_name)
+    puts game_message('saved', '', file_name)
   end
 
   def load_game
@@ -65,6 +65,6 @@ module Serializer
       list << file_name if file_name.start_with?('chess')
     end
 
-    list
+    list.sort
   end
 end

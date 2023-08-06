@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/LineLength
+# rubocop:disable Metrics/MethodLength
+
 # contains logic to handle sending messages to the player
 module TextOutput
   def turn_message(message, color = '')
@@ -31,4 +34,48 @@ module TextOutput
       'save prompt' => "\e[96mWould you like to save the game to be able to load it again another time? (y/n)\n>>\e[0m"
     }[message]
   end
+
+  def starting_text
+    system 'clear'
+    <<~HEREDOC
+
+
+      \e[91m██████╗░██╗░░░██╗██████╗░██╗░░░██╗░░░░░░░█████╗░██╗░░██╗███████╗░██████╗░██████╗\e[0m
+      \e[91m██╔══██╗██║░░░██║██╔══██╗╚██╗░██╔╝░░░░░░██╔══██╗██║░░██║██╔════╝██╔════╝██╔════╝\e[0m
+      \e[91m██████╔╝██║░░░██║██████╦╝░╚████╔╝░█████╗██║░░╚═╝███████║█████╗░░╚█████╗░╚█████╗░\e[0m
+      \e[91m██╔══██╗██║░░░██║██╔══██╗░░╚██╔╝░░╚════╝██║░░██╗██╔══██║██╔══╝░░░╚═══██╗░╚═══██╗\e[0m
+      \e[91m██║░░██║╚██████╔╝██████╦╝░░░██║░░░░░░░░░╚█████╔╝██║░░██║███████╗██████╔╝██████╔╝\e[0m
+      \e[91m╚═╝░░╚═╝░╚═════╝░╚═════╝░░░░╚═╝░░░░░░░░░░╚════╝░╚═╝░░╚═╝╚══════╝╚═════╝░╚═════╝░\e[0m
+
+        Welcome to my Command-line Chess Game! Built completely with \e[91mRuby.\e[0m
+        (This project is part of the Ruby Course from The Odin Project's Curriculum: https://www.theodinproject.com/lessons/ruby-ruby-final-project)
+
+        My game follows classic chess rules: \e[92mhttps://musketeerchess.net/p/games/classic/rules/rules.php\e[0m
+
+          To play the game, you will be prompted to enter the coordinates of a piece you want to move. Then,
+          to enter the coordinates of the square you want to move your selected piece to.
+
+          During the game, you can also enter 'q', 'quit', or 'exit'. When asked to make a move,
+          to quit the game. You will then be prompted to type 'y' or 'n' to save your game to allow
+          you to load it again later.
+
+          You can also type 'back' after selecting a piece to move, in case you change your mind.
+
+        To get started, just select one of the options below,
+        by typing their corresponding number:
+
+          \e[92m[0] >> Player (White) vs. Player (Black)\e[0m
+          \e[93m[1] >> Player (White) vs. Computer (Black)\e[0m
+          \e[94m[2] >> Player (Black) vs. Computer (White)\e[0m
+          \e[95m[3] >> Computer (White) vs. Computer (Black)\e[0m
+
+          [4] >> Load saved game.
+
+
+
+    HEREDOC
+  end
 end
+
+# rubocop:enable Layout/LineLength
+# rubocop:enable Metrics/MethodLength

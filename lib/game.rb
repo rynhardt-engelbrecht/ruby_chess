@@ -16,6 +16,20 @@ class Game
   end
 
   def play
+    iterate_game
+
+    puts game_message('draw') unless board.checkmate?(board.active_color)
+  end
+
+  def setup_game(board_obj)
+    create_board(board_obj)
+    players = determine_mode
+    @players = create_players(@board, players[0], players[1])
+  end
+
+  private
+
+  def iterate_game
     loop do
       if board.checkmate?(board.active_color)
         puts game_message('win', board.active_color == :white ? :black : :white)
@@ -23,17 +37,37 @@ class Game
       end
 
       halfmove
+    # rescue StopSaveError
+    #   return 'save start again'
+    rescue SaveQuitError
+      save_game
+      exit
     end
-
-    puts game_message('draw') unless board.checkmate?(board.active_color)
   end
 
-  def setup_game(board_obj, first_player_obj, second_player_obj)
-    create_board(board_obj)
-    @players = create_players(@board, first_player_obj, second_player_obj)
+  def quit
+    print game_message('save prompt')
+    input = gets.chomp.downcase
+
+    save_game if %w[y yes].include?(input)
+
+    puts game_message('quit')
+    sleep(1)
+    exit
   end
 
-  private
+  def determine_mode
+    case @mode
+    when 0
+      [Player, Player]
+    when 1
+      [Player, Computer]
+    when 2
+      [Computer, Player]
+    when 3
+      [Computer, Computer]
+    end
+  end
 
   def halfmove
     active_player = players.find { |player| player.color == @board.active_color }
