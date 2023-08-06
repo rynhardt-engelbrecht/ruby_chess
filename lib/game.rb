@@ -10,12 +10,20 @@ class Game
 
   def initialize(mode)
     @mode = mode
-    @active = true
     @last_move = nil
   end
 
   def play
-    halfmove until @active == false
+    loop do
+      if board.checkmate?(board.active_color)
+        puts game_message('win', board.active_color == :white ? :black : :white)
+        break
+      end
+
+      halfmove
+    end
+
+    puts game_message('draw') unless board.checkmate?(board.active_color)
   end
 
   def setup_game(board_obj, first_player_obj, second_player_obj)
@@ -27,10 +35,10 @@ class Game
 
   def halfmove
     active_player = players.find { |player| player.color == @board.active_color }
-    @board.print_board(active_player.color)
+    @board.print_board(board.active_color)
 
     active_player.turn
-    @board.print_board(active_player.color)
+    @board.print_board(board.active_color)
 
     perform_pending_promotions
 
@@ -63,7 +71,12 @@ class Game
   def promote_pawn(pawn)
     promotion = prompt_promotion
     piece_to_promote = Object.const_get(promotion)
-    @board.data[pawn.location[0]][pawn.location[1]] = piece_to_promote.new(@board, pawn.location, pawn.color, moved: true)
+    @board.data[pawn.location[0]][pawn.location[1]] = piece_to_promote.new(
+      @board,
+      pawn.location,
+      pawn.color,
+      moved: true
+    )
   end
 
   def create_board(board_obj)

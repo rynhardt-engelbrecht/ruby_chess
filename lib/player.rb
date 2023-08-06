@@ -48,11 +48,19 @@ class Player
   end
 
   def choose_piece
+    puts game_message('check') if @board.in_check?(@board.active_color)
     print "#{turn_message('square')} "
+    piece = piece_from_input
+    @board.print_board(@board.active_color)
+    puts error_message('unmovable piece') unless own_movable_piece?(piece)
+
+    piece
+  end
+
+  def piece_from_input
     piece_location = coordinates_input
     piece = @board.data[piece_location[0]][piece_location[1]]
-    @board.print_board(color)
-    puts error_message('unmovable piece') unless own_movable_piece?(piece)
+    @board.active_piece = piece if own_movable_piece?(piece)
 
     piece
   end
@@ -66,7 +74,7 @@ class Player
   def choose_move(piece)
     print "#{turn_message('move')} "
     move = coordinates_input
-    @board.print_board(color)
+    @board.print_board(@board.active_color)
     puts error_message('invalid move') unless valid_move?(piece, move)
 
     move

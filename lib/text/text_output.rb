@@ -2,7 +2,7 @@
 
 # contains logic to handle sending messages to the player
 module TextOutput
-  def turn_message(message, color = nil)
+  def turn_message(message, color = '')
     {
       'which color' => "==============\n #{color}'s turn \n==============",
       'square' => 'Enter coordinates of the piece you want to move>>',
@@ -18,9 +18,12 @@ module TextOutput
     }[message]
   end
 
-  def game_message(message)
+  def game_message(message, color = '')
     {
-      'promotion' => "What piece do you want to promote your pawn to?\nEnter 'Rook', 'Knight', 'Bishop', or 'Queen'>>"
+      'promotion' => "What piece do you want to promote your pawn to?\nEnter 'Rook', 'Knight', 'Bishop', or 'Queen'>>",
+      'win' => "#{color.capitalize} wins by checkmate!",
+      'draw' => 'The game ended in a stalemate.',
+      'check' => "\e[91mYour king is in check.\e[0m"
     }[message]
   end
 end

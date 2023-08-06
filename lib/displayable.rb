@@ -6,12 +6,14 @@ require_relative 'text/text_output'
 module Displayable
   include TextOutput
 
-  def print_board
+  def print_board(color)
     system 'clear'
     puts
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
     print_squares
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
+    puts
+    puts turn_message('which color', color)
     puts
   end
 
@@ -28,9 +30,29 @@ module Displayable
 
   def print_row(rank, rank_index)
     rank.each_with_index do |square, file_index|
-      background_color = (rank_index + file_index).even? ? '48;2;181;101;29' : '48;2;187;149;100'
-      print_square(square, background_color)
+      background_color = determine_background(rank_index, file_index)
+      print_square(square, background_color, rank_index, file_index)
     end
+  end
+
+  def determine_background(rank, file)
+    if @active_piece&.location == [rank, file]
+      return 102
+    elsif capturing_square?(rank, file)
+      return 41
+    elsif valid_move_square?(rank, file)
+      return 46
+    elsif (rank + file).even?
+      return '48;2;181;101;29'
+    end
+
+    '48;2;187;149;100'
+  end
+
+  def capturing_square?(rank, file)
+    @active_piece&.safe_moves(self)&.include?([rank, file]) &&
+      @data[rank][file]&.color != @active_color &&
+      !@data[rank][file].nil?
   end
 
   def print_square(square, background)
@@ -38,6 +60,10 @@ module Displayable
     text = square&.symbol || '  '
 
     color_square(background, text, text_color)
+  end
+
+  def valid_move_square?(rank, file)
+    @active_piece&.safe_moves(self)&.include?([rank, file])
   end
 
   def color_square(background, string, string_color)
