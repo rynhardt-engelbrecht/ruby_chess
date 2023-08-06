@@ -39,7 +39,9 @@ class Game
     active_player = players.find { |player| player.color == @board.active_color }
     @board.print_board(board.active_color)
 
-    active_player.turn
+    result = active_player.turn
+    return if result == 'try again'
+
     @board.print_board(board.active_color)
 
     perform_pending_promotions

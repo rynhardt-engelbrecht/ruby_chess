@@ -19,6 +19,7 @@ class Player
   end
 
   def turn(piece = nil, move = nil)
+    @board.active_piece = nil
     # should input the piece to move
     piece = choose_piece until own_movable_piece?(piece)
     @board.active_piece = piece
@@ -30,6 +31,8 @@ class Player
     move = choose_move(piece) until valid_move?(piece, move)
     make_move(piece, move)
     @board.active_piece = nil
+  rescue InputBackError
+    'try again'
   end
 
   def update(board)
@@ -40,13 +43,14 @@ class Player
 
   def choose_piece
     puts game_message('check') if @board.in_check?(@board.active_color)
+    @board.print_board(@board.active_color)
     print "#{turn_message('square')} "
     piece = piece_from_input
     @board.print_board(@board.active_color)
     puts error_message('unmovable piece') unless own_movable_piece?(piece)
 
     piece
-  rescue InputError
+  rescue InputSaveError
     choose_piece
   end
 
@@ -71,6 +75,8 @@ class Player
     puts error_message('invalid move') unless valid_move?(piece, move)
 
     move
+  rescue InputSaveError
+    choose_move(piece)
   end
 
   def valid_move?(piece, move)

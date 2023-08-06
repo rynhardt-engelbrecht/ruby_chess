@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
 # contains logic to raise errors from input
-class InputError < StandardError; end
+class InputSaveError < StandardError; end
+
+class InputBackError < StandardError; end

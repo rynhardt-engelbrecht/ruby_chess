@@ -1,19 +1,15 @@
 # frozen_string_literal: true
-require 'pry-byebug'
 require_relative 'input_error'
 
 # contains logic to handle all input from the player
 module InputHandler
-  KEYWORDS = %w[q quit exit s save]
+  KEYWORDS = %w[q quit exit s save back].freeze
 
   def coordinates_input(input = gets.chomp.downcase)
     # check for correct format and correct range
     coordinates_input unless valid_input?(input)
 
-    if KEYWORDS.include?(input)
-      handle_control(input)
-      raise InputError
-    end
+    return handle_control(input) if KEYWORDS.include?(input)
 
     rank_index = 8 - input[1].to_i
 
@@ -43,7 +39,12 @@ module InputHandler
 
   def handle_control(input)
     quit_game if %w[q quit exit].include?(input)
-    save_game if %w[s save].include?(input)
+    if %w[s save].include?(input)
+      save_game
+      raise InputSaveError
+    elsif input == 'back'
+      raise InputBackError
+    end
   end
 
   def valid_input?(input)

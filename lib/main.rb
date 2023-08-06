@@ -13,3 +13,5 @@ require_relative 'serializer'
 game = Game.new(0)
 game.setup_game(Board, Player, Player)
 game.play
+
+# def main_menu
