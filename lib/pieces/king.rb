@@ -11,8 +11,8 @@ class King < Piece
   end
 
   def generate_moves(board, rank, file)
-
-    traverse_move_array(board, rank, file, moveset.concat(castling_moves(board)))
+    traverse_move_array(board, rank, file, moveset)
+    @valid_moves += castling_moves(board)
   end
 
   def king_side_castling?(board)
@@ -52,8 +52,8 @@ class King < Piece
 
   def castling_moves(board)
     castling_moves = []
-    castling_moves << [0, 2] if king_side_castling?(board)
-    castling_moves << [0, -2] if queen_side_castling?(board)
+    castling_moves << [location[0], 6] if king_side_castling?(board)
+    castling_moves << [location[0], 2] if queen_side_castling?(board)
     castling_moves
   end
 
