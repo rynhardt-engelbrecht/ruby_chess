@@ -26,7 +26,9 @@ module TextOutput
       'win' => "\e[96m#{color.capitalize} wins by checkmate!\e[0m",
       'draw' => 'The game ended in a stalemate.',
       'check' => "\e[91mYour king is in check.\e[0m",
-      'saved' => "\e[92mGame has been saved as #{file_name}\e[0m"
+      'saved' => "\e[92mGame has been saved as #{file_name}\e[0m",
+      'quit' => "\e[33mExiting the game...\e[0m",
+      'save prompt' => "\e[96mWould you like to save the game to be able to load it again another time? (y/n)\n>>\e[0m"
     }[message]
   end
 end

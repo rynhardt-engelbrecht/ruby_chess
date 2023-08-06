@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-require_relative 'text/text_output'
-
+require_relative '../text/text_output'
+require_relative 'input_handler'
 # contains the logic to handle player input
 class Player
   attr_reader :color, :pieces
 
   include TextOutput
+  include InputHandler
 
-  def initialize(board, color)
+  def initialize(board, game, color)
     board.add_observer(self)
 
     @board = board
+    @game = game
     @color = color
     @pieces = []
   end
@@ -36,17 +38,6 @@ class Player
 
   private
 
-  def coordinates_input(input = gets.chomp.downcase)
-    coordinates_input unless input.match?(/^[a-h][1-8]$/) # check for correct format and correct range
-
-    rank_index = 8 - input[1].to_i
-
-    file_index = input[0]
-    file_integer_index = file_index.ord - 97
-
-    [rank_index, file_integer_index]
-  end
-
   def choose_piece
     puts game_message('check') if @board.in_check?(@board.active_color)
     print "#{turn_message('square')} "
@@ -55,6 +46,8 @@ class Player
     puts error_message('unmovable piece') unless own_movable_piece?(piece)
 
     piece
+  rescue InputError
+    choose_piece
   end
 
   def piece_from_input

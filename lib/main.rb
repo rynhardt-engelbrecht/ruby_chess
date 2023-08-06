@@ -6,7 +6,7 @@ require_relative 'pieces/knight'
 require_relative 'pieces/pawn'
 require_relative 'pieces/queen'
 require_relative 'pieces/rook'
-require_relative 'player'
+require_relative 'player/player'
 require_relative 'game'
 require_relative 'serializer'
 

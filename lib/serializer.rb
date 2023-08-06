@@ -33,7 +33,7 @@ module Serializer
   end
 
   def print_list(list)
-    puts "File Name(s)"
+    puts 'File Name(s)'
     list.each_with_index do |file_name, index|
       puts "\e[96m#{index}\e[0m   #{file_name}"
     end

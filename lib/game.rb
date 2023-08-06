@@ -88,8 +88,8 @@ class Game
 
   def create_players(board, first_player_obj, second_player_obj)
     [
-      first_player_obj.new(board, :white),
-      second_player_obj.new(board, :black)
+      first_player_obj.new(board, self, :white),
+      second_player_obj.new(board, self, :black)
     ]
   end
 end
