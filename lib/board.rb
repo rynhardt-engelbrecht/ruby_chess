@@ -31,18 +31,37 @@ class Board
     @data = data # board represented using a 2-Dimensional array.
     @active_color = params[:active_color]
     @active_piece = params[:active_piece]
-    @white_king = params[:white_king]
-    @black_king = params[:black_king]
     @last_move = nil
   end
 
   def piece_setup
     initial_white_placement
-    @white_king = data.flatten.compact.find { |piece| piece.instance_of?(King) && piece.color == :white }
     initial_black_placement
-    @black_king = data.flatten.compact.find { |piece| piece.instance_of?(King) && piece.color == :black }
 
     changed_and_notify # notifies pieces to update valid_moves and valid_captures
+  end
+
+  def in_check?(color)
+    king = find_king(color)
+
+    opponent_color = color == :white ? :black : :white
+    opponent_pieces = find_pieces(opponent_color)
+
+    opponent_pieces.any? { |piece| piece.valid_moves.include?(king.location) }
+  end
+
+  def checkmate?(color)
+    pieces = find_pieces(color)
+
+    pieces.all? { |p| p.safe_moves(self).empty? }
+  end
+
+  def find_king(color)
+    data.flatten.compact.find { |piece| piece.instance_of?(King) && piece.color == color }
+  end
+
+  def find_pieces(color)
+    data.flatten.compact.select { |piece| piece.color == color }
   end
 
   private

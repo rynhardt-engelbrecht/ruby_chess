@@ -5,7 +5,7 @@ require_relative 'piece'
 
 # contains logic for the King chess piece
 class King < Piece
-  def initialize(board, location, color)
+  def initialize(board, location, color, moved: false)
     super
     @symbol = "\u265A "
   end

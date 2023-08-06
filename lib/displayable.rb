@@ -6,14 +6,12 @@ require_relative 'text/text_output'
 module Displayable
   include TextOutput
 
-  def print_board(color)
+  def print_board
     system 'clear'
     puts
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
     print_squares
     puts "\e[38;2;181;101;29m   a b c d e f g h \e[0m"
-    puts
-    puts turn_message('which color', color)
     puts
   end
 

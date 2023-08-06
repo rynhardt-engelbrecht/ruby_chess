@@ -5,7 +5,7 @@ require_relative '../movement/slideable'
 
 # contains logic for the Rook < Piece chess piece
 class Rook < Piece
-  def initialize(board, location, color)
+  def initialize(board, location, color, moved: false)
     super
     @symbol = "\u265C "
   end

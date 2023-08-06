@@ -58,7 +58,7 @@ class Player
   end
 
   def own_movable_piece?(piece)
-    piece&.color == color && !piece.valid_moves.concat(piece.valid_captures).empty?
+    piece&.color == color && !piece.safe_moves(@board).empty?
     # we check that the piece the user is trying to move, is their own piece, but also that the piece
     # can actually move from it's current position.
   end
@@ -73,14 +73,14 @@ class Player
   end
 
   def valid_move?(piece, move)
-    piece.valid_moves.include?(move) || piece.valid_captures.include?(move)
+    piece.safe_moves(@board).include?(move)
     # checks that the given move exists within the piece's valid_moves and valid_captures instance variables.
     # Which are used to store what moves the specified piece can make. So if the given move does not exist in either
     # array, the user has entered an invalid move. And they are an idiot (I am only half-joking).
   end
 
   def make_move(piece, move)
-    @board.move_piece(piece, move)
+    @board.move_piece(piece.location, move)
   end
 
   def find_pieces(board)

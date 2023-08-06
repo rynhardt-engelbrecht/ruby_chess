@@ -5,7 +5,7 @@ require_relative '../movement/slideable'
 
 # contains logic for the Queen < Piece chess piece
 class Queen < Piece
-  def initialize(board, location, color)
+  def initialize(board, location, color, moved: false)
     super
     @symbol = "\u265B "
   end

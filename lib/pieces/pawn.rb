@@ -4,13 +4,10 @@ require_relative 'piece'
 
 # contains logic for the Pawn < Piece chess piece
 class Pawn < Piece
-  attr_reader :en_passant
-
-  def initialize(board, location, color)
+  def initialize(board, location, color, moved: false)
     super
     @direction = @color == :white ? -1 : 1
     @symbol = "\u265F "
-    @en_passant = false
 
     @pending_promotion = false
   end
@@ -28,8 +25,8 @@ class Pawn < Piece
     check_captures(board, rank, file)
   end
 
-  def en_passant_capture(board)
-    capture_target = en_passant_target(board)
+  def en_passant_capture(board, rank, file)
+    capture_target = en_passant_target(board, rank, file)
     board.data[capture_target.location[0]][capture_target.location[1]] = nil
   end
 
@@ -47,7 +44,6 @@ class Pawn < Piece
 
   def update(board)
     @valid_moves = []
-    @valid_captures = []
     if eligible_promotion?
       @pending_promotion = true
     else
@@ -63,13 +59,11 @@ class Pawn < Piece
       capture_rank = rank + move[0]
       capture_file = file + move[1]
 
-      @valid_captures << [capture_rank, capture_file] if eligible_capture?(board, capture_rank, capture_file)
+      @valid_moves << [capture_rank, capture_file] if eligible_capture?(board, capture_rank, capture_file)
     end
   end
 
   def eligible_capture?(board, rank, file)
-    update_en_passant(board, rank, file)
-
     opponent_piece?(board, rank, file) || en_passant?(board, rank, file)
   end
 
@@ -83,16 +77,12 @@ class Pawn < Piece
     [[@direction, 1], [@direction, -1]]
   end
 
-  def en_passant_target(board)
-    board.last_move[0] if @en_passant
+  def en_passant_target(board, rank, file)
+    board.last_move[0] if en_passant?(board, rank, file)
   end
 
   def en_passant_rank?(board, rank)
     (rank == 2 && board.last_move[0].color == :black) || (rank == 5 && board.last_move[0].color == :white)
-  end
-
-  def update_en_passant(board, rank, file)
-    @en_passant = en_passant?(board, rank, file)
   end
 
   def eligible_promotion?(rank = location[0])
