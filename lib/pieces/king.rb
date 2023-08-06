@@ -11,9 +11,28 @@ class King < Piece
   end
 
   def generate_moves(board, rank, file)
-    moveset.concat([[0, -2], [0, 2]]) if castling_eligible?(board)
 
-    traverse_move_array(board, rank, file, moveset)
+    traverse_move_array(board, rank, file, moveset.concat(castling_moves(board)))
+  end
+
+  def king_side_castling?(board)
+    king_side_pass = 5
+    empty_files = [6]
+    king_side_rook = 7
+    unmoved_king_rook?(board, king_side_rook) &&
+      empty_files?(board, empty_files) &&
+      !board.in_check?(@color) &&
+      king_pass_through_safe?(board, king_side_pass)
+  end
+
+  def queen_side_castling?(board)
+    queen_side_pass = 3
+    empty_files = [1, 2]
+    queen_side_rook = 0
+    unmoved_king_rook?(board, queen_side_rook) &&
+      empty_files?(board, empty_files) &&
+      !board.in_check?(@color) &&
+      king_pass_through_safe?(board, queen_side_pass)
   end
 
   private
@@ -31,51 +50,36 @@ class King < Piece
     ]
   end
 
-  def castling_eligible?(board)
-    return false if moved
+  def castling_moves(board)
+    castling_moves = []
+    castling_moves << [0, 2] if king_side_castling?(board)
+    castling_moves << [0, -2] if queen_side_castling?(board)
+    castling_moves
+  end
 
-    rooks = find_rooks(board.data, location[0])
-    eligible_rooks = unmoved_rooks(rooks).select do |rook|
-      validate_castling_side(board, rook)
+  def unmoved_king_rook?(board, file)
+    rank = location[0]
+
+    piece = board.data[rank][file]
+    return false unless piece
+
+    moved == false && piece.instance_of?(Rook) && !piece.moved
+  end
+
+  def king_pass_through_safe?(board, file)
+    rank = location[0]
+    board.data[rank][file].nil? && safe_passage?(board, [rank, file])
+  end
+
+  def safe_passage?(board, location)
+    opponent_pieces = board.find_pieces(@color == :white ? :black : :white)
+    opponent_pieces.none? do |piece|
+      piece.valid_moves.include?(location)
     end
-
-    !eligible_rooks.empty? && safe_path?(board, location[0])
   end
 
-  def validate_castling_side(board, rook)
-    empty_path?(board.data[location[0]][[rook.location[1], location[1]].min + 1...[rook.location[1], location[1]].max])
-  end
-
-  def find_rooks(data, rank)
-    data[rank].select { |piece| piece.instance_of?(Rook) }
-  end
-
-  def unmoved_rooks(rooks)
-    rooks.reject(&:moved)
-  end
-
-  def empty_path?(rank)
-    rank.all?(&:nil?)
-  end
-
-  def safe_path?(board, rank)
-    # checks that the castling path doesn't cross over any checked squares
-    castling_path(board.data, rank).each_index do |file|
-      # return false if checked_squares(board).include?([rank, file])
-    end
-
-    true
-  end
-
-  def opponent_pieces(data)
-    data.flatten.compact.reject { |piece| piece.color == color }
-  end
-
-  def castling_path(data, rank)
-    # the squares the king moves over when castling
-    start_index = location[1] - 2
-    end_index = location[1] + 2
-
-    data[rank][start_index..end_index]
+  def empty_files?(board, files)
+    rank = location[0]
+    files.none? { |file| board.data[rank][file] }
   end
 end
