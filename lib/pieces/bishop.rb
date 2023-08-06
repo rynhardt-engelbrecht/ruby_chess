@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require_relative '../movement/movable'
+require_relative '../movement/slideable'
 
 # contains logic for the Bishop chess piece
 class Bishop < Piece
@@ -10,7 +10,7 @@ class Bishop < Piece
     @symbol = "\u265D "
   end
 
-  include Movable
+  include Slideable
 
   def generate_moves(board, rank, file)
     traverse_move_array(board, 0, 0, diagonal_movement(board, rank, file))

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # handles sliding pieces' movement
-module Movable
+module Slideable
   def horizontal_movement(board, rank, file)
     moves_in_direction(board, rank, file, 0, -1).concat(moves_in_direction(board, rank, file, 0, 1))
   end

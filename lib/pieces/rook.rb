@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require_relative '../movement/movable'
+require_relative '../movement/slideable'
 
 # contains logic for the Rook < Piece chess piece
 class Rook < Piece
@@ -10,7 +10,7 @@ class Rook < Piece
     @symbol = "\u265C "
   end
 
-  include Movable
+  include Slideable
 
   def generate_moves(board, rank, file)
     move_array = horizontal_movement(board, rank, file).concat(vertical_movement(board, rank, file))
