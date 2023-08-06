@@ -31,7 +31,7 @@ module Displayable
   def print_row(rank, rank_index)
     rank.each_with_index do |square, file_index|
       background_color = determine_background(rank_index, file_index)
-      print_square(square, background_color, rank_index, file_index)
+      print_square(square, background_color)
     end
   end
 

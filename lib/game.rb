@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'text/text_output'
+require_relative 'serializer'
 
 # contains main logic to run the game
 class Game
   include TextOutput
+  include Serializer
 
   attr_reader :players, :board, :mode
 
