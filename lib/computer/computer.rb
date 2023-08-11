@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'pry-byebug'
+
 # contains logic for the computer player
 class Computer
   attr_reader :color, :pieces
