@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+
 require_relative 'piece'
 
 # contains logic for the King chess piece

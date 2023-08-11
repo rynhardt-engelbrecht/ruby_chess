@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'pry-byebug'
+
 # contains logic for the computer player
 class Computer
   attr_reader :color, :pieces
@@ -53,12 +53,12 @@ class Computer
     moves = find_highest_scoring_moves(board)
 
     moves.reject! { |move| move[:move].nil? }
-    moves.max do |a, b|
+    moves.max(3) do |a, b|
       a_score = test_move(board, a[:piece].location, a[:move])
       b_score = test_move(board, b[:piece].location, b[:move])
 
       a_score <=> b_score
-    end
+    end.sample
   end
 
   def test_move(board, original_location, move)
