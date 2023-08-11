@@ -6,6 +6,16 @@ require_relative 'text/text_output'
 module Displayable
   include TextOutput
 
+  COLORS = {
+    white: ';97',
+    black: ';30',
+    beige: '48;2;187;149;100',
+    brown: '48;2;181;101;29',
+    green: '102',
+    red: '41',
+    blue: '46'
+  }.freeze
+
   def print_board(color)
     system 'clear'
     puts
@@ -37,16 +47,16 @@ module Displayable
 
   def determine_background(rank, file)
     if @active_piece&.location == [rank, file]
-      return 102
-    elsif capturing_square?(rank, file)
-      return 41
-    elsif valid_move_square?(rank, file)
-      return 46
+      return COLORS[:green]
+    # elsif capturing_square?(rank, file)
+    #   return COLORS[:red]
+    # elsif valid_move_square?(rank, file)
+    #   return COLORS[:blue]
     elsif (rank + file).even?
-      return '48;2;181;101;29'
+      return COLORS[:brown]
     end
 
-    '48;2;187;149;100'
+    COLORS[:beige]
   end
 
   def capturing_square?(rank, file)
@@ -56,7 +66,7 @@ module Displayable
   end
 
   def print_square(square, background)
-    text_color = square.color == :white ? ';97' : ';30' if square
+    text_color = square.color == :white ? COLORS[:white] : COLORS[:black] if square
     text = square&.symbol || '  '
 
     color_square(background, text, text_color)

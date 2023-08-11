@@ -25,6 +25,8 @@ class Game
     create_board(board_obj)
     players = determine_mode
     @players = create_players(@board, players[0], players[1])
+
+    board.send(:changed_and_notify)
   end
 
   private
@@ -40,8 +42,7 @@ class Game
     # rescue StopSaveError
     #   return 'save start again'
     rescue SaveQuitError
-      save_game
-      exit
+      quit
     end
   end
 
@@ -52,7 +53,6 @@ class Game
     save_game if %w[y yes].include?(input)
 
     puts game_message('quit')
-    sleep(1)
     exit
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'input_error'
 
 # contains logic to handle all input from the player
@@ -21,23 +22,8 @@ module InputHandler
 
   private
 
-  def quit_game
-    print game_message('save prompt')
-    input = gets.chomp.downcase
-
-    save_game if %w[y yes].include?(input)
-
-    puts game_message('quit')
-    sleep(1)
-    exit
-  end
-
-  def save_game
-    raise SaveQuitError
-  end
-
   def handle_control(input)
-    quit_game if %w[q quit exit].include?(input)
+    raise SaveQuitError if %w[q quit exit].include?(input)
     raise InputBackError if input == 'back'
   end
 
