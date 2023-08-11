@@ -36,6 +36,10 @@ class Piece
     end
   end
 
+  def score_map
+    puts 'Abstract method called'
+  end
+
   private
 
   def traverse_move_array(board, rank_increment, file_increment, array)

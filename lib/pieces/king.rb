@@ -35,6 +35,23 @@ class King < Piece
       king_pass_through_safe?(board, queen_side_pass)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  def score_map
+    map = [
+      [1, 4, 3, 2, 2, 3, 4, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [-1, 0, 0, 0, 0, 0, 0, -1],
+      [-2, -1, 0, 0, 0, 0, -1, -2]
+    ]
+
+    color == :white ? map.reverse : map
+  end
+  # rubocop:enable Metrics/MethodLength
+
   private
 
   def moveset

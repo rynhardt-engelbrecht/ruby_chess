@@ -51,6 +51,23 @@ class Pawn < Piece
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
+  def score_map
+    map = [
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [-1, -1, -1, -1, -1, -1, -1, -1],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [2, 2, 1, 1, 1, 1, 2, 2],
+      [2, 2, 1, 1, 1, 1, 2, 2],
+      [4, 4, 2, 0, 0, 2, 4, 4]
+    ]
+
+    color == :white ? map.reverse : map
+  end
+  # rubocop:enable Metrics/MethodLength
+
   private
 
   def check_captures(board, rank, file)
