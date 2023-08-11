@@ -52,6 +52,10 @@ class King < Piece
   end
   # rubocop:enable Metrics/MethodLength
 
+  def value
+    0
+  end
+
   private
 
   def moveset

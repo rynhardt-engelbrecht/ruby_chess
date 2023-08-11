@@ -64,6 +64,10 @@ class Board
     data.flatten.compact.select { |piece| piece.color == color }
   end
 
+  def score(color)
+    calculate_score(color)
+  end
+
   private
 
   def initial_white_placement
@@ -97,5 +101,23 @@ class Board
   def changed_and_notify
     changed
     notify_observers(self)
+  end
+
+  def calculate_score(color)
+    pieces = find_pieces(color)
+
+    calculate_piece_difference(pieces, color) + calculate_piece_score(pieces)
+  end
+
+  def calculate_piece_difference(pieces, color)
+    opponent_color = color == :white ? :black : :white
+    opponent_pieces = find_pieces(opponent_color)
+    (pieces.size - opponent_pieces.size) * 1.5
+  end
+
+  def calculate_piece_score(pieces)
+    scores = pieces.map { |p| p.score_map[p.location[0]][p.location[1]] + p.value }
+
+    scores.sum
   end
 end

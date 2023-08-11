@@ -20,7 +20,7 @@ class Bishop < Piece
   # we disable this rubocop cop here because this method is over 10 lines, but is
   # only so because I am returning a 2D array, and the method isn't complex enough to
   # warrant splitting it into several different methods.
-  def score_map(color)
+  def score_map
     map = [
       [-1, 0, -1, -2, -2, -1, 0, -1],
       [0, 0, 1, 1, 1, 1, 0, 0],
@@ -35,4 +35,8 @@ class Bishop < Piece
     color == :white ? map.reverse : map
   end
   # rubocop:enable Metrics/MethodLength
+
+  def value
+    3
+  end
 end

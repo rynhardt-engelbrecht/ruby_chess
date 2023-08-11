@@ -37,4 +37,8 @@ class Queen < Piece
     color == :white ? map.reverse : map
   end
   # rubocop:enable Metrics/MethodLength
+
+  def value
+    5
+  end
 end

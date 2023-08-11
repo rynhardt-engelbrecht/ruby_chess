@@ -34,4 +34,8 @@ class Rook < Piece
     color == :white ? map.reverse : map
   end
   # rubocop:enable Metrics/MethodLength
+
+  def value
+    2
+  end
 end

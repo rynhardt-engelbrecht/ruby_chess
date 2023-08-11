@@ -40,6 +40,10 @@ class Piece
     puts 'Abstract method called'
   end
 
+  def value
+    puts 'Abstract method called'
+  end
+
   private
 
   def traverse_move_array(board, rank_increment, file_increment, array)
