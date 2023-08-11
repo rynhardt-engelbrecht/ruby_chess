@@ -43,9 +43,10 @@ module Moveable
   end
 
   def make_move(piece, destination)
+    original_location = piece.location
     piece.en_passant_capture(self, destination[0], destination[1]) if can_en_passant?(piece, destination)
     data[destination[0]][destination[1]] = piece
-    remove_piece(piece.location)
+    remove_piece(original_location)
     @last_move = [piece, piece.location, destination]
     update_location(piece, destination)
 

@@ -47,7 +47,7 @@ class Board
     opponent_color = color == :white ? :black : :white
     opponent_pieces = find_pieces(opponent_color)
 
-    opponent_pieces.any? { |piece| piece.valid_moves.include?(king.location) }
+    opponent_pieces.any? { |piece| piece.valid_moves.include?(king&.location) }
   end
 
   def checkmate?(color)
@@ -106,7 +106,8 @@ class Board
   def calculate_score(color)
     pieces = find_pieces(color)
 
-    calculate_piece_difference(pieces, color) + calculate_piece_score(pieces)
+    calculate_check_score(color) + calculate_piece_difference(pieces, color) +
+      calculate_piece_score(pieces)
   end
 
   def calculate_piece_difference(pieces, color)
@@ -119,5 +120,17 @@ class Board
     scores = pieces.map { |p| p.score_map[p.location[0]][p.location[1]] + p.value }
 
     scores.sum
+  end
+
+  def calculate_check_score(color)
+    opponent_color = color == :white ? :black : :white
+
+    if in_check?(opponent_color)
+      6
+    elsif checkmate?(opponent_color)
+      20
+    end
+
+    0
   end
 end
