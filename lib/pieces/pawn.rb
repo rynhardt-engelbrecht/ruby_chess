@@ -4,6 +4,8 @@ require_relative 'piece'
 
 # contains logic for the Pawn < Piece chess piece
 class Pawn < Piece
+  attr_reader :direction
+
   def initialize(board, location, color, moved: false)
     super
     @direction = @color == :white ? -1 : 1
