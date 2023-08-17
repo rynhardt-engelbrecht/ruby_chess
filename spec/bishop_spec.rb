@@ -1,5 +1,4 @@
 require_relative '../lib/pieces/pieces'
-require_relative '../lib/board'
 
 RSpec.describe Bishop do
   let(:board) { Board.new }
@@ -7,8 +6,7 @@ RSpec.describe Bishop do
 
   describe '#generate_moves' do
     context 'with no nearby pieces' do
-
-      it 'updates @valid_moves with correct moves' do
+      it 'correctly updates @valid_moves' do
         expected_moves = [
           [4, 4], [5, 5], [6, 6], [7, 7],
           [2, 4], [1, 5], [0, 6],
