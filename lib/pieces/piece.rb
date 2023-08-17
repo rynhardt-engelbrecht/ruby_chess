@@ -15,6 +15,8 @@ class Piece
     @moved = moved
     @valid_moves = []
     @symbol = nil
+
+    board.data[location[0]][location[1]] = self
   end
 
   def update(board)
