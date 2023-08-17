@@ -8,6 +8,118 @@ RSpec.describe King do
     king.instance_variable_set(:@valid_moves, [])
   end
 
+  describe '#king_side_castling?' do
+    context 'when king side rook has moved' do
+      it 'returns false' do
+        Rook.new(board, [7, 6], :white, moved: true)
+
+        expect(king.king_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when self has moved' do
+      it 'returns false' do
+        Rook.new(board, [7, 7], :white)
+        king.moved = true
+
+        expect(king.king_side_castling?(board)).to be false
+      end
+    end
+
+    context 'with blocking pieces' do
+      it 'returns false' do
+        Rook.new(board, [7, 7], :white)
+        Knight.new(board, [7, 6], :white)
+
+        expect(king.king_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when path is unsafe (king passes over checked square)' do
+      it 'returns false' do
+        Rook.new(board, [7, 7], :white)
+        Rook.new(board, [0, 5], :black)
+        board.send(:changed_and_notify)
+
+        expect(king.king_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when self is checked' do
+      it 'returns false' do
+        Rook.new(board, [7, 7], :white)
+        Rook.new(board, [0, 4], :black)
+        board.send(:changed_and_notify)
+
+        expect(king.king_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when all conditions are satisfied' do
+      it 'returns true' do
+        Rook.new(board, [7, 7], :white)
+
+        expect(king.king_side_castling?(board)).to be true
+      end
+    end
+  end
+
+  describe '#queen_side_castling?' do
+    context 'when queen side rook has moved' do
+      it 'returns false' do
+        Rook.new(board, [7, 1], :white, moved: true)
+
+        expect(king.queen_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when self has moved' do
+      it 'returns false' do
+        Rook.new(board, [7, 0], :white)
+        king.moved = true
+
+        expect(king.queen_side_castling?(board)).to be false
+      end
+    end
+
+    context 'with blocking pieces' do
+      it 'returns false' do
+        Rook.new(board, [7, 0], :white)
+        Knight.new(board, [7, 1], :white)
+
+        expect(king.queen_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when path is unsafe (king passes over checked square)' do
+      it 'returns false' do
+        Rook.new(board, [7, 0], :white)
+        Rook.new(board, [0, 3], :black)
+        board.send(:changed_and_notify)
+
+        expect(king.queen_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when self is checked' do
+      it 'returns false' do
+        Rook.new(board, [7, 0], :white)
+        Rook.new(board, [0, 4], :black)
+        board.send(:changed_and_notify)
+
+        expect(king.queen_side_castling?(board)).to be false
+      end
+    end
+
+    context 'when all conditions are satisfied' do
+      it 'returns true' do
+        Rook.new(board, [7, 0], :white)
+
+        expect(king.queen_side_castling?(board)).to be true
+      end
+    end
+  end
+
   describe '#generate_moves' do
     context 'when ineligible for castling' do
       context 'with no nearby pieces' do
